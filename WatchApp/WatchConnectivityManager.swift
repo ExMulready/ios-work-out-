@@ -76,20 +76,5 @@ extension WatchConnectivityManager: WCSessionDelegate {
     }
 }
 
-// MARK: - GameState <-> dictionary (for WC transport)
-
-extension GameState {
-    var asDictionary: [String: Any]? {
-        guard let data = try? JSONEncoder().encode(self),
-              let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
-        else { return nil }
-        return obj
-    }
-
-    init?(dictionary: [String: Any]) {
-        guard let data = try? JSONSerialization.data(withJSONObject: dictionary),
-              let decoded = try? JSONDecoder().decode(GameState.self, from: data)
-        else { return nil }
-        self = decoded
-    }
-}
+// GameState <-> dictionary transport helpers now live in Shared
+// (GameState+Transport.swift) so both the Watch and iPhone use the same code.
