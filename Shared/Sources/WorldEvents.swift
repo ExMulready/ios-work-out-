@@ -120,7 +120,7 @@ public enum WorldEventScheduler {
     /// so the schedule stays predictable and learnable.
     public static func event(at date: Date = Date(), calendar: Calendar = .current) -> WorldEvent {
         // 1) Rare anomaly roll (deterministic per 4-hour block, ~1 in 11 blocks).
-        if let anomaly = anomaly(at: date, calendar: calendar) {
+        if let anomaly = anomaly(at: date) {
             return anomaly
         }
 
@@ -145,13 +145,13 @@ public enum WorldEventScheduler {
         }
     }
 
-    /// A deterministic pseudo-random anomaly for the date's 4-hour block, or nil.
-    private static func anomaly(at date: Date, calendar: Calendar) -> WorldEvent? {
-        let c = calendar.dateComponents([.year, .dayOfYear, .hour], from: date)
-        let block = (c.hour ?? 0) / 4
-        let seed = (((c.year ?? 0) * 1000) + (c.dayOfYear ?? 0)) * 6 + block
+    /// A deterministic pseudo-random anomaly for the current 4-hour block, or nil.
+    /// Seeds from a universal epoch-based block index (no calendar components), so
+    /// it needs no recent-OS APIs and every device worldwide agrees.
+    private static func anomaly(at date: Date) -> WorldEvent? {
+        let block = Int(date.timeIntervalSince1970 / (4 * 3600))
         // Simple LCG hash → stable per block, identical on every device.
-        let r = (seed &* 1_103_515_245 &+ 12_345) & 0x7fff_ffff
+        let r = (block &* 1_103_515_245 &+ 12_345) & 0x7fff_ffff
         guard r % 11 == 0 else { return nil }          // ~9% of blocks
         return WorldEvent.anomalies[r % WorldEvent.anomalies.count]
     }

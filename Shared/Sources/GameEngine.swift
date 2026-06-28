@@ -384,7 +384,7 @@ public final class GameEngine: ObservableObject {
         SharedStore.save(state)
     }
 
-    public static func load() -> GameState {
+    nonisolated public static func load() -> GameState {
         SharedStore.load()
     }
 
