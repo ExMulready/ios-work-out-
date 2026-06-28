@@ -1,5 +1,7 @@
 # Salvager — Apple Watch Idle Salvage RPG
 
+[![Swift](https://github.com/ExMulready/ios-work-out-/actions/workflows/swift.yml/badge.svg)](https://github.com/ExMulready/ios-work-out-/actions/workflows/swift.yml)
+
 > Working title: **"Salvager"** (placeholder — check name availability on the
 > App Store and for trademark before committing). Bundle/IDs use `com.salvager.*`.
 
@@ -121,6 +123,21 @@ appleWatchGame/
 | Min OS | watchOS 10 / iOS 17 |
 
 ---
+
+## Continuous Integration
+
+`.github/workflows/swift.yml` builds and unit-tests the **shared game logic**
+(`Shared/Sources` → the `SalvagerCore` SwiftPM library) on a macOS runner via
+`swift build` / `swift test`. This validates the platform-agnostic core (models,
+rules, events, achievements, engine) on every push — the part that compiles
+without an Xcode project.
+
+The **full watchOS/iOS app** build is a second job in that workflow, gated off
+(`if: false`) because SwiftPM can't build the app/widget targets — they need an
+Xcode project assembled on a Mac (see below). Once an `.xcodeproj`/scheme is
+committed, flip that job on and set the scheme name to get full-app CI builds.
+
+Run the core build locally (on a Mac) with: `swift test`.
 
 ## Assembling the Xcode project (on a Mac)
 

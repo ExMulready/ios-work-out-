@@ -1,0 +1,49 @@
+name: Swift
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  core:
+    name: Build & test core game logic
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Swift version
+        run: swift --version
+
+      - name: Build SalvagerCore
+        run: swift build -v
+
+      - name: Run tests
+        run: swift test -v
+
+  # ------------------------------------------------------------------
+  # Full watchOS/iOS app build (disabled until an Xcode project exists).
+  # The app targets (SwiftUI views, WatchKit, HealthKit, StoreKit, the
+  # widget extension) can't be built by SwiftPM — they need an .xcodeproj
+  # or .xcworkspace assembled in Xcode on a Mac (see README). Once that's
+  # committed, flip `if:` to true and set SCHEME below.
+  # ------------------------------------------------------------------
+  app:
+    name: Build watchOS app (enable after Xcode project is added)
+    runs-on: macos-latest
+    if: false
+    env:
+      SCHEME: "Salvager Watch App"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build for watchOS Simulator
+        run: |
+          xcodebuild build \
+            -scheme "$SCHEME" \
+            -destination 'platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)' \
+            CODE_SIGNING_ALLOWED=NO
