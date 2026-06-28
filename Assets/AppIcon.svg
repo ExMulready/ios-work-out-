@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Salvager — starter app icon (1024×1024).
+  A salvage cutter-beam slicing a derelict hull fragment in deep space.
+  Vector so you can recolor/restyle freely. Export to PNG at 1024×1024
+  (no alpha, no rounded corners — Apple applies the mask) and drop into the
+  AppIcon asset catalog in Xcode.
+-->
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="space" cx="50%" cy="40%" r="80%">
+      <stop offset="0%"  stop-color="#0e2235"/>
+      <stop offset="55%" stop-color="#081523"/>
+      <stop offset="100%" stop-color="#030810"/>
+    </radialGradient>
+    <linearGradient id="hull" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#5b6b7a"/>
+      <stop offset="100%" stop-color="#2b3640"/>
+    </linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#9af7ff" stop-opacity="0"/>
+      <stop offset="50%"  stop-color="#4fd4ff"/>
+      <stop offset="100%" stop-color="#1f8fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="16" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Deep space background -->
+  <rect width="1024" height="1024" fill="url(#space)"/>
+
+  <!-- Distant stars -->
+  <g fill="#cfe9ff">
+    <circle cx="180" cy="200" r="3" opacity="0.9"/>
+    <circle cx="840" cy="160" r="2.5" opacity="0.8"/>
+    <circle cx="720" cy="300" r="2" opacity="0.7"/>
+    <circle cx="270" cy="760" r="2.5" opacity="0.8"/>
+    <circle cx="860" cy="720" r="3" opacity="0.85"/>
+    <circle cx="150" cy="520" r="2" opacity="0.6"/>
+  </g>
+
+  <!-- Faint orbital ring -->
+  <ellipse cx="512" cy="540" rx="330" ry="120" fill="none"
+           stroke="#3aa0ff" stroke-opacity="0.12" stroke-width="14"/>
+
+  <!-- Derelict hull fragment (being salvaged) -->
+  <g filter="url(#glow)">
+    <path d="M360 430 L660 405 L712 560 L520 672 L322 604 Z"
+          fill="url(#hull)"/>
+    <!-- Panel lines -->
+    <path d="M430 455 L612 440" stroke="#7c8b98" stroke-width="6" stroke-opacity="0.5"/>
+    <path d="M400 540 L660 520" stroke="#7c8b98" stroke-width="6" stroke-opacity="0.4"/>
+    <path d="M470 470 L500 640" stroke="#1b242c" stroke-width="6" stroke-opacity="0.6"/>
+    <!-- Glowing cut edge where the beam bites -->
+    <path d="M520 672 L322 604" stroke="#5fe0ff" stroke-width="7" stroke-opacity="0.9"/>
+    <circle cx="322" cy="604" r="10" fill="#bff5ff"/>
+  </g>
+
+  <!-- Cutter beam from upper-right -->
+  <g filter="url(#glow)">
+    <rect x="300" y="120" width="26" height="520" rx="13" fill="url(#beam)"
+          transform="rotate(28 313 380)"/>
+  </g>
+
+  <!-- Salvage drone (small) emitting the beam -->
+  <g>
+    <circle cx="700" cy="250" r="46" fill="#2b3640" stroke="#5fe0ff" stroke-width="6"/>
+    <circle cx="700" cy="250" r="16" fill="#bff5ff"/>
+  </g>
+</svg>

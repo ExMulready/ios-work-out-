@@ -1,0 +1,60 @@
+{
+  "identifier" : "SALVAGER_STOREKIT_CONFIG",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "CORES_SMALL",
+      "localizations" : [
+        {
+          "description" : "100 Cores to spend in the Salvage Exchange.",
+          "displayName" : "Core Cache",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.salvager.cores.small",
+      "referenceName" : "Core Cache",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "3.99",
+      "familyShareable" : false,
+      "internalID" : "CORES_MEDIUM",
+      "localizations" : [
+        {
+          "description" : "500 Cores to spend in the Salvage Exchange.",
+          "displayName" : "Core Crate",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.salvager.cores.medium",
+      "referenceName" : "Core Crate",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "7.99",
+      "familyShareable" : false,
+      "internalID" : "CORES_LARGE",
+      "localizations" : [
+        {
+          "description" : "1200 Cores to spend in the Salvage Exchange.",
+          "displayName" : "Core Vault",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.salvager.cores.large",
+      "referenceName" : "Core Vault",
+      "type" : "Consumable"
+    }
+  ],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_storeKitErrors" : []
+  },
+  "subscriptionGroups" : [],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}
