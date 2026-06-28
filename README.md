@@ -139,9 +139,30 @@ committed, flip that job on and set the scheme name to get full-app CI builds.
 
 Run the core build locally (on a Mac) with: `swift test`.
 
-## Assembling the Xcode project (on a Mac)
+## Generating the Xcode project (XcodeGen)
 
-You still need a Mac with Xcode to build/run/ship (watchOS/iOS SDKs are macOS-only).
+You don't have to assemble the project by hand — `project.yml` is an
+[XcodeGen](https://github.com/yonaskolb/XcodeGen) spec that builds
+`Salvager.xcodeproj` (iOS app + Watch app + Widget, with bundle IDs, App Group,
+and HealthKit wired up). The generated project is git-ignored; regenerate it any
+time on a Mac:
+
+```bash
+brew install xcodegen     # once
+xcodegen generate         # creates Salvager.xcodeproj
+open Salvager.xcodeproj   # build/run in Xcode
+```
+
+CI does exactly this on a macOS runner (the `app` job in `swift.yml`), so the app
+is built from `project.yml` without anyone touching Xcode locally. If you change
+targets/sources, edit `project.yml` and regenerate.
+
+> The spec was authored without a Mac to test against, so embedding /
+> entitlements / Info.plist details may need small fixes — watch the Actions logs.
+
+## Assembling the Xcode project manually (alternative)
+
+Prefer clicking through Xcode instead of XcodeGen? You still need a Mac.
 These files are plain Swift — create the project shell once, then add them.
 
 1. **Install Xcode** from the Mac App Store.

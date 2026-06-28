@@ -25,25 +25,31 @@ jobs:
         run: swift test -v
 
   # ------------------------------------------------------------------
-  # Full watchOS/iOS app build (disabled until an Xcode project exists).
-  # The app targets (SwiftUI views, WatchKit, HealthKit, StoreKit, the
-  # widget extension) can't be built by SwiftPM — they need an .xcodeproj
-  # or .xcworkspace assembled in Xcode on a Mac (see README). Once that's
-  # committed, flip `if:` to true and set SCHEME below.
+  # Full app build: generate the Xcode project from project.yml with
+  # XcodeGen, then build the iOS app (which embeds the Watch app + Widget)
+  # for the simulator with signing disabled. No Mac needed locally.
   # ------------------------------------------------------------------
   app:
-    name: Build watchOS app (enable after Xcode project is added)
+    name: Generate & build app (Xcode)
     runs-on: macos-latest
-    if: false
-    env:
-      SCHEME: "Salvager Watch App"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build for watchOS Simulator
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: List schemes
+        run: xcodebuild -list -project Salvager.xcodeproj
+
+      - name: Build app (iOS Simulator, no signing)
         run: |
+          set -o pipefail
           xcodebuild build \
-            -scheme "$SCHEME" \
-            -destination 'platform=watchOS Simulator,name=Apple Watch Series 10 (46mm)' \
-            CODE_SIGNING_ALLOWED=NO
+            -project Salvager.xcodeproj \
+            -scheme "Salvager" \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
